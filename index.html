@@ -3,113 +3,580 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Benaka Associates - ITR Consent Form</title>
+  <title>Benaka Associates - Client Consent for ITR Filing</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #EEF2F7; min-height: 100vh; color: #1B2E4B; }
-    .header { background: #1B2E4B; color: white; padding: 22px 24px 18px; text-align: center; }
-    .header h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.3px; }
-    .header .firm { font-size: 0.95rem; font-weight: 700; color: #F97316; margin-top: 4px; }
-    .header p { font-size: 0.75rem; opacity: 0.65; margin-top: 5px; }
-    .container { max-width: 600px; margin: 0 auto; padding: 20px 14px 48px; }
-    .card { background: white; border-radius: 12px; padding: 22px 20px; margin-bottom: 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); }
-    .step-badge { display: inline-block; background: #EEF2F7; color: #1B2E4B; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; }
-    .section-label { font-size: 0.68rem; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase; color: #F97316; margin-bottom: 16px; }
-    .field { margin-bottom: 14px; }
-    .field:last-child { margin-bottom: 0; }
-    .field label { display: block; font-size: 0.8rem; font-weight: 600; color: #475569; margin-bottom: 6px; }
-    .field input, .field select { width: 100%; padding: 10px 13px; border: 1.5px solid #E2E8F0; border-radius: 8px; font-size: 0.94rem; color: #1B2E4B; outline: none; background: white; -webkit-appearance: none; }
-    .field input:focus, .field select:focus { border-color: #1B2E4B; }
-    .declaration-box { background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 8px; padding: 15px 16px; font-size: 0.85rem; line-height: 1.75; color: #334155; max-height: 260px; overflow-y: auto; }
-    .declaration-box p { margin-bottom: 10px; }
-    .declaration-box p:last-child { margin-bottom: 0; }
-    .declaration-box .addr-block { margin-top: 14px; padding-top: 12px; border-top: 1px dashed #CBD5E1; font-size: 0.82rem; color: #475569; }
-    .declaration-box .addr-block b { color: #1B2E4B; }
-    .sig-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .sig-meta span:first-child { font-size: 0.83rem; font-weight: 600; color: #475569; }
-    .sig-hint { font-size: 0.72rem; color: #94A3B8; }
-    #signatureCanvas { width: 100%; height: 180px; border: 2px dashed #CBD5E1; border-radius: 8px; cursor: crosshair; background: #FAFBFC; touch-action: none; display: block; }
-    #signatureCanvas.signed { border: 2px solid #1B2E4B; background: white; }
-    .btn-row { display: flex; gap: 10px; margin-top: 14px; }
-    .btn-clear { padding: 10px 18px; border: 1.5px solid #CBD5E1; border-radius: 8px; background: white; color: #64748B; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
-    .btn-clear:hover { background: #F1F5F9; }
-    .btn-finish { flex: 1; padding: 13px; background: #F97316; color: white; border: none; border-radius: 8px; font-size: 0.97rem; font-weight: 700; cursor: pointer; letter-spacing: 0.2px; }
-    .btn-finish:hover { background: #EA6C0A; }
-    .error-msg { color: #EF4444; font-size: 0.78rem; margin-top: 10px; display: none; font-weight: 500; }
-    .success-card { display: none; background: #ECFDF5; border: 1.5px solid #6EE7B7; border-radius: 12px; padding: 28px 20px; text-align: center; margin-top: 4px; }
-    .success-card .tick { font-size: 2.8rem; margin-bottom: 12px; }
-    .success-card h2 { color: #065F46; font-size: 1.1rem; margin-bottom: 8px; }
-    .success-card p { color: #047857; font-size: 0.84rem; line-height: 1.6; }
-    .success-card .wa-note { display: inline-block; margin-top: 14px; background: #25D366; color: white; padding: 9px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; }
+    
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif; 
+      background: #0A0E14;
+      min-height: 100vh; 
+      color: #E5E7EB;
+      padding: 0 0 40px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 0%, rgba(255, 140, 0, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255, 140, 0, 0.05) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .doc-header {
+      background: linear-gradient(180deg, #12161D 0%, #0A0E14 100%);
+      padding: 32px 20px 28px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .doc-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #FF8C00, transparent);
+    }
+    
+    .firm-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(255, 140, 0, 0.12);
+      color: #FF8C00;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 140, 0, 0.3);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    
+    .firm-name {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #FFFFFF;
+      margin-bottom: 4px;
+    }
+    
+    .firm-subtitle {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #9CA3AF;
+      margin-bottom: 18px;
+    }
+    
+    .firm-contact {
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: #9CA3AF;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .firm-contact .row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    
+    .firm-contact .item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #D1D5DB;
+    }
+    
+    .firm-contact .icon {
+      color: #FF8C00;
+      font-size: 0.9rem;
+    }
+    
+    .firm-contact .addr {
+      font-size: 0.74rem;
+      color: #9CA3AF;
+      line-height: 1.5;
+      max-width: 380px;
+      margin: 8px auto 0;
+    }
+    
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 14px 0;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .doc-title {
+      background: linear-gradient(135deg, #1A1F2A 0%, #141821 100%);
+      padding: 22px 24px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      text-align: center;
+      border: 1px solid rgba(255, 140, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .doc-title::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #FF8C00, #FFA500, #FF8C00);
+    }
+    
+    .doc-title h1 {
+      font-size: 1.15rem;
+      color: #FFFFFF;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      margin-bottom: 6px;
+    }
+    
+    .doc-title p {
+      font-size: 0.78rem;
+      color: #9CA3AF;
+      font-weight: 500;
+    }
+    
+    .section-card {
+      background: linear-gradient(135deg, #1A1F2A 0%, #141821 100%);
+      padding: 24px 22px;
+      margin-bottom: 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .section-card:hover {
+      border-color: rgba(255, 140, 0, 0.2);
+    }
+    
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #FF8C00;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 140, 0, 0.15);
+    }
+    
+    .section-head::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: #FF8C00;
+      border-radius: 2px;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    
+    .form-row.full {
+      grid-template-columns: 1fr;
+    }
+    
+    .form-field {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .form-field label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #9CA3AF;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      padding: 13px 14px;
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: #FFFFFF;
+      background: rgba(0, 0, 0, 0.25);
+      transition: all 0.25s ease;
+      -webkit-appearance: none;
+    }
+    
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: #4B5563;
+    }
+    
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: #FF8C00;
+      background: rgba(255, 140, 0, 0.04);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+    }
+    
+    .form-field select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23FF8C00' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    
+    .form-field select option {
+      background: #1A1F2A;
+      color: #FFFFFF;
+    }
+    
+    .declaration-text {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1.5px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 18px 18px;
+      font-size: 0.88rem;
+      line-height: 1.85;
+      color: #D1D5DB;
+      max-height: 340px;
+      overflow-y: auto;
+      text-align: justify;
+    }
+    
+    .declaration-text::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .declaration-text::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    .declaration-text::-webkit-scrollbar-thumb {
+      background: rgba(255, 140, 0, 0.3);
+      border-radius: 3px;
+    }
+    
+    .declaration-text p {
+      margin-bottom: 12px;
+      text-indent: 1.8em;
+    }
+    
+    .declaration-text p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .declaration-text strong {
+      color: #FF8C00;
+      font-weight: 700;
+    }
+    
+    .sig-instruction {
+      font-size: 0.78rem;
+      color: #9CA3AF;
+      margin-bottom: 14px;
+      font-weight: 500;
+      background: rgba(255, 140, 0, 0.08);
+      padding: 12px 14px;
+      border-radius: 8px;
+      border-left: 3px solid #FF8C00;
+      line-height: 1.5;
+    }
+    
+    .sig-canvas-wrapper {
+      border: 2px dashed rgba(255, 140, 0, 0.3);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px;
+      margin-bottom: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .sig-canvas-wrapper.signed {
+      border-color: #FF8C00;
+      border-style: solid;
+      box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+    }
+    
+    #signatureCanvas {
+      width: 100%;
+      height: 170px;
+      cursor: crosshair;
+      display: block;
+      background: #FFFFFF;
+      border-radius: 6px;
+      touch-action: none;
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .btn {
+      padding: 13px 22px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-family: inherit;
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #9CA3AF;
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #FF8C00 0%, #FF6B00 100%);
+      color: white;
+      flex: 1;
+      box-shadow: 0 4px 20px rgba(255, 140, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(255, 140, 0, 0.5);
+    }
+    
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    
+    .error-box {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1.5px solid rgba(239, 68, 68, 0.3);
+      border-radius: 10px;
+      color: #FCA5A5;
+      padding: 14px 16px;
+      font-size: 0.85rem;
+      margin-top: 14px;
+      display: none;
+      font-weight: 500;
+    }
+    
+    .success-box {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%);
+      border: 1.5px solid rgba(16, 185, 129, 0.3);
+      border-radius: 14px;
+      color: #6EE7B7;
+      padding: 24px 20px;
+      font-size: 0.88rem;
+      text-align: center;
+      margin-top: 16px;
+      display: none;
+    }
+    
+    .success-box .icon { 
+      font-size: 2.6rem; 
+      margin-bottom: 10px;
+      display: block;
+    }
+    
+    .success-box .msg { 
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: #FFFFFF;
+    }
+    
+    .success-box .submsg { 
+      font-size: 0.82rem; 
+      margin-top: 8px; 
+      color: #9CA3AF; 
+    }
+    
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .firm-name {
+        font-size: 1.35rem;
+      }
+      
+      .firm-contact .row {
+        flex-direction: column;
+        gap: 6px;
+      }
+      
+      .doc-title h1 {
+        font-size: 1.05rem;
+      }
+      
+      .btn-group {
+        flex-direction: column;
+      }
+      
+      .section-card {
+        padding: 20px 18px;
+      }
+    }
   </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>📄 ITR Filing Consent &amp; Declaration</h1>
-  <div class="firm">BENAKA ASSOCIATES — Tax Practitioner</div>
-  <p>Fill your details, read the declaration, and sign below</p>
+<div class="doc-header">
+  <div class="firm-badge">Tax Practitioner</div>
+  <div class="firm-name">BENAKA ASSOCIATES</div>
+  <div class="firm-subtitle">Income Tax · Audit · Advisory</div>
+  <div class="firm-contact">
+    <div class="row">
+      <span class="item"><span class="icon">📞</span> 9916 216 444</span>
+      <span class="item"><span class="icon">✉</span> benaka.associates@yahoo.com</span>
+    </div>
+    <div class="addr">Navalgund Building, 3rd Main Road, A Block, Vidya Nagar East, Haveri, Karnataka 581110</div>
+  </div>
 </div>
 
 <div class="container">
 
-  <div class="card">
-    <div class="step-badge">Step 1 of 3 — Your Details</div>
-    <div class="section-label">Client Information</div>
-    <div class="field">
-      <label>Full Name (as per PAN)</label>
-      <input type="text" id="clientName" placeholder="e.g. Rajesh Kumar Sharma" autocomplete="name" />
-    </div>
-    <div class="field">
-      <label>PAN Number</label>
-      <input type="text" id="panNumber" placeholder="e.g. ABCDE1234F" maxlength="10" style="text-transform:uppercase" />
-    </div>
-    <div class="field">
-      <label>Assessment Year</label>
-      <select id="assessmentYear" onchange="updateDeclarationAY()">
-        <option value="">Select Assessment Year</option>
-        <option value="A.Y 2025-26" selected>A.Y 2025-26</option>
-        <option value="A.Y 2026-27">A.Y 2026-27</option>
-        <option value="A.Y 2024-25">A.Y 2024-25</option>
-      </select>
-    </div>
+  <div class="doc-title">
+    <h1>Client Consent for Income Tax Return Filing</h1>
+    <p>Please complete all fields and sign the declaration below</p>
   </div>
 
-  <div class="card">
-    <div class="step-badge">Step 2 of 3 — Read Declaration</div>
-    <div class="section-label">Declaration</div>
-    <div class="declaration-box" id="declarationBox">
-      <p>I/We hereby declare that I/we have provided all the information, details, and explanations for the Income Tax Return filing of <b id="declAy1">A.Y 2025-26</b>. I/We also state that we have understood the contents and disclosure requirement of the Income Tax Return and agreed for the same.</p>
-      <p>I am fully aware of the computation and workings considered while filing the income tax return. The return of income is filed based on my advice, Benaka Associates not advised all the liabilities and risks which I am taking of not disclosing any income.</p>
-      <p>Based on my sole responsibility, I am filing the return.</p>
-      <p>I/We also declare that there are no other undisclosed incomes for the <b id="declAy2">A.Y 2025-26</b>.</p>
-      <div class="addr-block">
-        <p style="margin-bottom:0;"><b>To,</b><br>BENAKA ASSOCIATES (Tax Practitioner)<br>Navalgund Building, 3rd Main Road, A Block, Vidya Nagar East, Haveri, Karnataka 581110, India</p>
+  <!-- Client Details -->
+  <div class="section-card">
+    <div class="section-head">Client Information</div>
+    
+    <div class="form-row">
+      <div class="form-field">
+        <label>Full Name <span style="color:#FF8C00">(as per PAN)</span></label>
+        <input type="text" id="clientName" placeholder="Enter full name" />
+      </div>
+      <div class="form-field">
+        <label>PAN Number</label>
+        <input type="text" id="panNumber" placeholder="ABCDE1234F" maxlength="10" style="text-transform: uppercase;" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label>Assessment Year</label>
+        <select id="assessmentYear" onchange="updateAY()">
+          <option value="">Select Year</option>
+          <option value="A.Y. 2025–26" selected>A.Y. 2025–26</option>
+          <option value="A.Y. 2026–27">A.Y. 2026–27</option>
+          <option value="A.Y. 2024–25">A.Y. 2024–25</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Contact Number</label>
+        <input type="tel" id="clientPhone" placeholder="Enter mobile number" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label>Place <span style="color:#FF8C00">(City/Town)</span></label>
+        <input type="text" id="clientPlace" placeholder="e.g. Haveri" />
+      </div>
+      <div class="form-field">
+        <label>Date</label>
+        <input type="text" id="clientDate" readonly style="background: rgba(0,0,0,0.4); cursor: not-allowed; color: #9CA3AF;" />
+      </div>
+    </div>
+
+    <div class="form-row full">
+      <div class="form-field">
+        <label>Residential Address</label>
+        <textarea id="clientAddress" placeholder="Enter your complete residential address" style="resize: vertical; min-height: 70px;"></textarea>
       </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="step-badge">Step 3 of 3 — Sign Below</div>
-    <div class="section-label">Digital Signature</div>
-    <div class="sig-meta">
-      <span>Draw your signature</span>
-      <span class="sig-hint">Finger on mobile · Mouse on laptop</span>
-    </div>
-    <canvas id="signatureCanvas"></canvas>
-    <div id="errorMsg" class="error-msg">⚠️ Please fill all details and sign before finishing.</div>
-    <div class="btn-row">
-      <button class="btn-clear" onclick="clearSignature()">✕ Clear</button>
-      <button class="btn-finish" onclick="finishAndDownload()">⬇ Finish &amp; Download PDF</button>
+  <!-- Declaration -->
+  <div class="section-card">
+    <div class="section-head">Declaration</div>
+    
+    <div class="declaration-text">
+      <p>I/We hereby declare that all information, details, and explanations required for filing the Income Tax Return for <strong id="ay1">A.Y. 2025–26</strong> have been provided by me/us and are true and complete to the best of my/our knowledge.</p>
+      
+      <p>I/We have understood and accepted the contents and disclosure requirements of the return. The return has been prepared and filed based solely on the information and instructions provided by me/us. I/We take full responsibility for the accuracy and completeness of the return.</p>
+      
+      <p>I/We acknowledge that Benaka Associates shall not be held responsible for any omission, non-disclosure, misstatement, or undisclosed income not reported by me/us.</p>
+      
+      <p>I/We further confirm that there is no undisclosed income relating to <strong id="ay2">A.Y. 2025–26</strong>.</p>
     </div>
   </div>
 
-  <div class="success-card" id="successCard">
-    <div class="tick">✅</div>
-    <h2>Consent Form Downloaded!</h2>
-    <p>Your signed consent form has been saved to your device.<br>Please send it to Benaka Associates via WhatsApp.</p>
-    <span class="wa-note">📤 Share on WhatsApp</span>
+  <!-- Signature -->
+  <div class="section-card">
+    <div class="section-head">Digital Signature</div>
+    
+    <div class="sig-instruction">
+      Sign in the box below using your finger on mobile, or mouse on computer. This signature certifies your acceptance of the declaration above.
+    </div>
+
+    <div class="sig-canvas-wrapper" id="canvasWrapper">
+      <canvas id="signatureCanvas"></canvas>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-secondary" onclick="clearSignature()">Clear</button>
+      <button class="btn btn-primary" onclick="submitAndDownload()">Download Signed PDF</button>
+    </div>
+
+    <div class="error-box" id="errorBox"></div>
+    <div class="success-box" id="successBox">
+      <div class="icon">✓</div>
+      <div class="msg">Consent Form Downloaded</div>
+      <div class="submsg">Please send the signed PDF to Benaka Associates via WhatsApp or email</div>
+    </div>
   </div>
 
 </div>
@@ -117,7 +584,8 @@
 <script>
   const canvas = document.getElementById('signatureCanvas');
   const ctx = canvas.getContext('2d');
-  let drawing = false, hasSigned = false;
+  let isDrawing = false;
+  let hasSignature = false;
 
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
@@ -125,11 +593,12 @@
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
     ctx.scale(dpr, dpr);
-    ctx.strokeStyle = '#1B2E4B';
-    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = '#1A1A1A';
+    ctx.lineWidth = 2.2;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
   }
+
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
@@ -139,135 +608,234 @@
     return { x: src.clientX - rect.left, y: src.clientY - rect.top };
   }
 
-  canvas.addEventListener('mousedown', e => { drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); });
-  canvas.addEventListener('mousemove', e => { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); markSigned(); });
-  canvas.addEventListener('mouseup', () => drawing = false);
-  canvas.addEventListener('mouseleave', () => drawing = false);
-  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); }, { passive: false });
-  canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); markSigned(); }, { passive: false });
-  canvas.addEventListener('touchend', () => drawing = false);
+  canvas.addEventListener('mousedown', e => {
+    isDrawing = true;
+    ctx.beginPath();
+    const p = getPos(e);
+    ctx.moveTo(p.x, p.y);
+  });
 
-  function markSigned() { hasSigned = true; canvas.classList.add('signed'); }
+  canvas.addEventListener('mousemove', e => {
+    if (!isDrawing) return;
+    const p = getPos(e);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    markSigned();
+  });
 
-  function updateDeclarationAY() {
-    const ay = document.getElementById('assessmentYear').value || 'A.Y 2025-26';
-    document.getElementById('declAy1').textContent = ay;
-    document.getElementById('declAy2').textContent = ay;
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseleave', () => isDrawing = false);
+
+  canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    isDrawing = true;
+    ctx.beginPath();
+    const p = getPos(e);
+    ctx.moveTo(p.x, p.y);
+  }, { passive: false });
+
+  canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (!isDrawing) return;
+    const p = getPos(e);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    markSigned();
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', () => isDrawing = false);
+
+  function markSigned() {
+    hasSignature = true;
+    document.getElementById('canvasWrapper').classList.add('signed');
   }
-  updateDeclarationAY();
 
   function clearSignature() {
     const rect = canvas.getBoundingClientRect();
     ctx.clearRect(0, 0, rect.width * 2, rect.height * 2);
-    hasSigned = false;
-    canvas.classList.remove('signed');
-    document.getElementById('errorMsg').style.display = 'none';
+    hasSignature = false;
+    document.getElementById('canvasWrapper').classList.remove('signed');
+    document.getElementById('errorBox').style.display = 'none';
   }
 
-  function finishAndDownload() {
+  function updateAY() {
+    const ay = document.getElementById('assessmentYear').value || 'A.Y. 2025–26';
+    document.getElementById('ay1').textContent = ay;
+    document.getElementById('ay2').textContent = ay;
+  }
+
+  updateAY();
+
+  // Auto-fill today's date
+  document.getElementById('clientDate').value = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
+
+  function submitAndDownload() {
     const name = document.getElementById('clientName').value.trim();
-    const pan  = document.getElementById('panNumber').value.trim().toUpperCase();
-    const ay   = document.getElementById('assessmentYear').value;
-    const err  = document.getElementById('errorMsg');
-    if (!name || !pan || !ay || !hasSigned) { err.style.display = 'block'; err.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
-    err.style.display = 'none';
+    const pan = document.getElementById('panNumber').value.trim().toUpperCase();
+    const ay = document.getElementById('assessmentYear').value;
+    const phone = document.getElementById('clientPhone').value.trim();
+    const address = document.getElementById('clientAddress').value.trim();
+    const place = document.getElementById('clientPlace').value.trim();
+    const errorBox = document.getElementById('errorBox');
+
+    if (!name || !pan || !ay || !hasSignature || !phone || !address || !place) {
+      errorBox.textContent = '⚠ Please fill all fields and provide your signature';
+      errorBox.style.display = 'block';
+      errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    errorBox.style.display = 'none';
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    const pW = 210, m = 20, cW = pW - m * 2;
+    const pW = 210, m = 16, cW = pW - m * 2;
     let y = 0;
 
-    doc.setFillColor(27, 46, 75);
-    doc.rect(0, 0, 210, 40, 'F');
+    doc.setFillColor(26, 26, 26);
+    doc.rect(0, 0, pW, 35, 'F');
+    
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(14); doc.setFont('helvetica', 'bold');
-    doc.text('BENAKA ASSOCIATES', pW / 2, 14, { align: 'center' });
-    doc.setFontSize(9); doc.setFont('helvetica', 'normal');
-    doc.text('Tax Practitioner — ITR Filing Consent & Declaration', pW / 2, 22, { align: 'center' });
-    doc.setFontSize(7.5); doc.setTextColor(200, 215, 230);
-    doc.text('Generated: ' + new Date().toLocaleString('en-IN'), pW / 2, 30, { align: 'center' });
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('BENAKA ASSOCIATES', pW / 2, 12, { align: 'center' });
+    
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(255, 140, 0);
+    doc.text('Tax Practitioner - Client Consent for ITR Filing', pW / 2, 20, { align: 'center' });
+    
+    doc.setFontSize(7);
+    doc.setTextColor(180, 180, 180);
+    doc.text('Navalgund Building, Haveri, Karnataka  |  9916 216 444  |  benaka.associates@yahoo.com', pW / 2, 27, { align: 'center' });
+    doc.text('Generated: ' + new Date().toLocaleString('en-IN'), pW / 2, 32, { align: 'center' });
 
-    y = 50;
-    doc.setFillColor(238, 242, 247);
-    doc.roundedRect(m, y, cW, 36, 3, 3, 'F');
-    doc.setTextColor(249, 115, 22); doc.setFontSize(7); doc.setFont('helvetica', 'bold');
-    doc.text('CLIENT DETAILS', m + 8, y + 9);
-    doc.setTextColor(27, 46, 75); doc.setFontSize(10);
-    const col2 = m + cW / 2;
-    doc.setFont('helvetica', 'bold'); doc.text('Full Name:', m + 8, y + 19);
-    doc.setFont('helvetica', 'normal'); doc.text(name, m + 34, y + 19);
-    doc.setFont('helvetica', 'bold'); doc.text('PAN:', m + 8, y + 29);
-    doc.setFont('helvetica', 'normal'); doc.text(pan, m + 24, y + 29);
-    doc.setFont('helvetica', 'bold'); doc.text('Assessment Year:', col2, y + 19);
-    doc.setFont('helvetica', 'normal'); doc.text(ay, col2 + 40, y + 19);
+    y = 42;
 
-    y += 46;
-    doc.setTextColor(249, 115, 22); doc.setFontSize(7); doc.setFont('helvetica', 'bold');
-    doc.text('DECLARATION', m, y);
+    doc.setTextColor(26, 26, 26);
+    doc.setFillColor(240, 240, 240);
+    doc.rect(m, y, cW, 35, 'F');
+    
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(255, 140, 0);
+    doc.text('CLIENT DETAILS', m + 6, y + 8);
+    
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(26, 26, 26);
+    const col1 = m + 6, col2 = m + cW / 2 + 2;
+    
+    doc.setFont('helvetica', 'bold');
+    doc.text('Name:', col1, y + 19);
+    doc.setFont('helvetica', 'normal');
+    doc.text(name, col1 + 16, y + 19);
+    
+    doc.setFont('helvetica', 'bold');
+    doc.text('PAN:', col2, y + 19);
+    doc.setFont('helvetica', 'normal');
+    doc.text(pan, col2 + 12, y + 19);
+    
+    doc.setFont('helvetica', 'bold');
+    doc.text('Assessment Year:', col1, y + 27);
+    doc.setFont('helvetica', 'normal');
+    doc.text(ay, col1 + 30, y + 27);
+    
+    doc.setFont('helvetica', 'bold');
+    doc.text('Phone:', col2, y + 27);
+    doc.setFont('helvetica', 'normal');
+    doc.text(phone, col2 + 16, y + 27);
+
+    y += 42;
+
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Address:', m, y);
     y += 5;
-    doc.setDrawColor(220, 228, 236); doc.line(m, y, pW - m, y);
-    y += 7;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    const addrLines = doc.splitTextToSize(address, cW - 4);
+    doc.text(addrLines, m + 2, y);
+    y += addrLines.length * 4.5 + 6;
+
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(255, 140, 0);
+    doc.text('DECLARATION', m, y);
+    y += 4;
+    doc.setDrawColor(200, 200, 200);
+    doc.line(m, y, pW - m, y);
+    y += 6;
 
     const declText = [
-      'I/We hereby declare that I/we have provided all the information, details, and explanations for the Income Tax Return filing of ' + ay + '. I/We also state that we have understood the contents and disclosure requirement of the Income Tax Return and agreed for the same.',
-      'I am fully aware of the computation and workings considered while filing the income tax return. The return of income is filed based on my advice, Benaka Associates not advised all the liabilities and risks which I am taking of not disclosing any income.',
-      'Based on my sole responsibility, I am filing the return.',
-      'I/We also declare that there are no other undisclosed incomes for the ' + ay + '.'
+      'I/We hereby declare that all information, details, and explanations required for filing the Income Tax Return for ' + ay + ' have been provided by me/us and are true and complete to the best of my/our knowledge.',
+      'I/We have understood and accepted the contents and disclosure requirements of the return. The return has been prepared and filed based solely on the information and instructions provided by me/us. I/We take full responsibility for the accuracy and completeness of the return.',
+      'I/We acknowledge that Benaka Associates shall not be held responsible for any omission, non-disclosure, misstatement, or undisclosed income not reported by me/us.',
+      'I/We further confirm that there is no undisclosed income relating to ' + ay + '.'
     ];
-    doc.setTextColor(51, 65, 85); doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5);
+
+    doc.setFontSize(8.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(50, 50, 50);
+
     declText.forEach((para, i) => {
-      const lines = doc.splitTextToSize(para, cW);
-      doc.text(lines, m, y);
-      y += lines.length * 5.2 + (i < declText.length - 1 ? 4 : 0);
+      const lines = doc.splitTextToSize(para, cW - 2);
+      doc.text(lines, m + 1, y);
+      y += lines.length * 4.8 + (i < declText.length - 1 ? 3 : 0);
     });
 
-    y += 6;
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(9);
-    doc.text('To,', m, y); y += 5;
-    doc.text('BENAKA ASSOCIATES (Tax Practitioner)', m, y); y += 7;
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5);
-    doc.setTextColor(80, 95, 115);
-    const addrLines = doc.splitTextToSize('Navalgund Building, 3rd Main Road, A Block, Vidya Nagar East, Haveri, Karnataka 581110, India', cW);
-    doc.text(addrLines, m, y);
-    y += addrLines.length * 4.6 + 6;
-
-    doc.setDrawColor(220, 228, 236); doc.line(m, y, pW - m, y);
     y += 8;
-    doc.setTextColor(249, 115, 22); doc.setFontSize(7); doc.setFont('helvetica', 'bold');
+
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(255, 140, 0);
     doc.text('CLIENT SIGNATURE', m, y);
     y += 6;
 
-    const sigW = 80, sigH = 32;
-    doc.setFillColor(250, 251, 252); doc.setDrawColor(200, 210, 220);
-    doc.roundedRect(m, y, sigW, sigH, 2, 2, 'FD');
+    const sigW = 70, sigH = 30;
+    doc.setFillColor(250, 250, 250);
+    doc.setDrawColor(180, 180, 180);
+    doc.rect(m, y, sigW, sigH);
     doc.addImage(canvas.toDataURL('image/png'), 'PNG', m + 2, y + 2, sigW - 4, sigH - 4);
 
-    const rx = m + sigW + 14;
-    doc.setTextColor(100, 116, 139); doc.setFontSize(8.5); doc.setFont('helvetica', 'normal');
-    doc.text('Date :', rx, y + 10);
-    doc.setTextColor(27, 46, 75); doc.setFont('helvetica', 'bold');
-    doc.text(new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }), rx + 14, y + 10);
-    doc.setFont('helvetica', 'normal'); doc.setTextColor(100, 116, 139);
-    doc.text('Place :', rx, y + 22);
-    doc.setDrawColor(180, 196, 210); doc.line(rx + 16, y + 22, rx + 52, y + 22);
+    const rx = m + sigW + 12;
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(80, 80, 80);
+    doc.text('Date:', rx, y + 12);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(26, 26, 26);
+    doc.text(new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }), rx + 14, y + 12);
 
-    y += sigH + 5;
-    doc.setDrawColor(160, 180, 200); doc.line(m, y, m + sigW, y);
-    y += 4;
-    doc.setFontSize(7.5); doc.setTextColor(120, 140, 160); doc.setFont('helvetica', 'normal');
-    doc.text('Signature of Client', m, y);
-    doc.text(name, m, y + 6);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(80, 80, 80);
+    doc.text('Place:', rx, y + 22);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(26, 26, 26);
+    doc.text(place, rx + 14, y + 22);
 
-    doc.setFillColor(27, 46, 75); doc.rect(0, 282, 210, 15, 'F');
-    doc.setTextColor(180, 200, 220); doc.setFontSize(6.8);
-    doc.text('This digitally signed consent is valid for ITR filing — Benaka Associates, Tax Practitioner.', pW / 2, 288, { align: 'center' });
-    doc.text('Authorized by the client voluntarily for the specified Assessment Year only.', pW / 2, 293, { align: 'center' });
+    y += sigH + 4;
+    doc.setDrawColor(150, 150, 150);
+    doc.line(m, y, m + sigW, y);
+    y += 3;
+    doc.setFontSize(7.5);
+    doc.setTextColor(100, 100, 100);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Client Signature', m, y + 2);
 
-    doc.save('ITR_Consent_' + pan + '_' + ay.replace(/[\s.]/g, '') + '.pdf');
+    doc.setFillColor(26, 26, 26);
+    doc.rect(0, 275, pW, 22, 'F');
+    doc.setTextColor(180, 180, 180);
+    doc.setFontSize(6.5);
+    doc.setFont('helvetica', 'normal');
+    doc.text('This is a digitally signed consent form for Income Tax Return filing purposes only.', pW / 2, 282, { align: 'center' });
+    doc.text('Client acknowledges full responsibility for the accuracy and completeness of information provided.', pW / 2, 287, { align: 'center' });
+    doc.text('Benaka Associates | Tax Practitioner | Haveri, Karnataka', pW / 2, 293, { align: 'center' });
 
-    const sc = document.getElementById('successCard');
-    sc.style.display = 'block';
-    setTimeout(() => sc.scrollIntoView({ behavior: 'smooth' }), 100);
+    doc.save('ITR_Consent_' + pan + '_' + ay.replace(/[\s.–]/g, '') + '.pdf');
+
+    document.getElementById('successBox').style.display = 'block';
+    document.getElementById('successBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 </script>
 
